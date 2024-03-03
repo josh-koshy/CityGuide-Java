@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Page</title>
+    <script>
+      window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name'); // Get the name from URL parameters
+        document.getElementById('welcomeMessage').textContent = `Hello, ${name}! Welcome back.`;
+      }
+    </script>
+</head>
+<body>
+    <h2 id="welcomeMessage">Loading...</h2>
+</body>
+</html>
