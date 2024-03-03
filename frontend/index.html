@@ -26,26 +26,29 @@
       window.loginUser = function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        
+        const loginStatus = document.getElementById('loginStatus');
+
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            // Signed in 
-            alert('User logged in successfully');
-            const emailLocalPart = email.split('@')[0]; // Get the part of the email before the @
-            window.location.href = `welcome.html?name=${encodeURIComponent(emailLocalPart)}`;
-            // Redirect the user or update UI
+            loginStatus.textContent = 'Login successful!';
+            loginStatus.classList.add('visible', 'success');
+            loginStatus.classList.remove('hidden', 'error');
+            setTimeout(() => {
+              loginStatus.classList.remove('visible', 'success');
+              loginStatus.classList.add('hidden');
+              // Redirect to welcome page with user email
+              const emailLocalPart = email.split('@')[0];
+              window.location.href = `welcome.html?name=${encodeURIComponent(emailLocalPart)}`;
+            }, 3000);
           })
           .catch((error) => {
-            
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            let userFriendlyMessage = '';
-            if (errorCode === 'auth/invalid-login-credentials') {
-              userFriendlyMessage = 'Invalid login credentials. Please try again.';
-            } else {
-              userFriendlyMessage = 'Login failed. Please try again later.';
-            }
-            alert('Error: ' + userFriendlyMessage);
+            loginStatus.textContent = 'Invalid Email or Password';
+            loginStatus.classList.add('visible', 'error');
+            loginStatus.classList.remove('hidden', 'success');
+            setTimeout(() => {
+              loginStatus.classList.remove('visible', 'error');
+              loginStatus.classList.add('hidden');
+            }, 3000);
           });
       }
     </script>
@@ -58,6 +61,19 @@
           align-items: center;
           height: 100vh;
           margin: 0;
+          flex-direction: column;
+      }
+      .title-container {
+          text-align: center;
+          margin-bottom: 20px;
+      }
+
+      .title-container h1 {
+          font-size: 24px; /* You can adjust the font size as needed */
+          color: #000000; /* Adjust the color to match your design */
+          padding: 10px;
+          margin: 0;
+          text-transform: uppercase; /* Optional: style preference */
       }
 
       .login-container {
@@ -115,9 +131,40 @@
       .login-footer a:hover {
           text-decoration: underline;
       }
+      .login-status {
+          padding: 10px;
+          color: white;
+          text-align: center;
+          border-radius: 5px;
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1000;
+          display: none;
+      }
+
+      .login-status.success {
+          background-color: green;
+      }
+
+      .login-status.error {
+          background-color: red;
+      }
+
+      .hidden {
+          display: none;
+      }
+
+      .visible {
+          display: block;
+      }
+
   </style>
 <body>
-<div>City Guide</div>
+  <div class="title-container">
+      <h1>City Guide</h1>
+  </div>
   <div class="login-container">
       <div class="login-form">
           <input type="email" id="email" placeholder="Email">
@@ -131,5 +178,7 @@
           </div>
       </div>
   </div>
+  <div id="loginStatus" class="login-status hidden"></div>
 </body>
+
 </html>
