@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Page</title>
+    <script type="module">
+      import { firebaseConfig } from './firebase-config.js';
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+      
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      window.signUpUser = async function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          alert('User created successfully');
+          window.location.href = 'index.html'; // Redirect to login page
+        } catch (error) {
+          if (error.code === 'auth/email-already-in-use') {
+            // If the email is already in use, redirect to the login page
+            alert('Email already in use, please login.');
+            window.location.href = 'index.html'; // Make sure 'login.html' is the correct path to your login page
+          } else {
+            // For other errors, display the error message
+            alert('Error: ' + error.message);
+          }
+        }
+      }
+    </script>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <div>
+        <input type="email" id="email" placeholder="Enter email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="signUpUser()">Sign Up</button>
+    </div>
+</body>
+</html>
