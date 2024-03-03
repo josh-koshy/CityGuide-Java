@@ -5,18 +5,9 @@
     <!-- Update the version number as needed -->
     <script type="module">
       // Import the functions you need from the SDKs you need
+      import { firebaseConfig } from './firebase-config.js';
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
       import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyB_XEM6x5YveXFN3wS2ORseyJTi8U2kEME",
-        authDomain: "city-guide-app-d48a9.firebaseapp.com",
-        projectId: "city-guide-app-d48a9",
-        storageBucket: "city-guide-app-d48a9.appspot.com",
-        messagingSenderId: "181799342059",
-        appId: "1:181799342059:web:96dac38be767878b0693ae",
-        measurementId: "G-XKSVWTR37T"
-      };
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
